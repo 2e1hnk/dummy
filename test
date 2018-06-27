@@ -1,0 +1,21 @@
+[out:json][timeout:800];
+(
+  way()(if:t["ele"] > 300);
+  node()(if:t["ele"] > 300);
+  rel()(if:t["ele"] > 300);
+)->.summits;
+
+way
+  (around.summits:100)
+  [highway]
+  [highway!~"^(footway|path|bridleway|track|unclassified|cycleway|service)$"]
+->.streets;
+
+(
+  node.summits(around.streets:100);
+  way.summits(around.streets:100);
+  rel.summits(around.streets:100);
+)->.matchingSummits;
+
+(.matchingSummits; .streets;);
+out geom;
